@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Center from '../components/Center'
 import Sidebar from '../components/Sidebar'
 
 export default function Home() {
@@ -10,9 +11,9 @@ export default function Home() {
       </Head>
       
       <div className='bg-black h-screen overflow-hidden'>
-        <main>
+        <main className='flex'>
           <Sidebar />
-          {/* Main */}
+          <Center />
         </main>
   
         <div>
