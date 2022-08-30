@@ -2,25 +2,40 @@
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
-import { shuffle } from 'lodash';
+import { shuffle } from 'lodash'
+import { useRecoilValue, useRecoilState } from 'recoil'
+import { playlistAtom, playlistAtomId } from '../atoms/playlistAtom'
+import spotifyApi from '../lib/spotify'
 
 const colors = [
-    'from-indigo-500',
-    'from-blue-500',
-    'from-green-500',
-    'from-red-500',
-    'from-yellow-500',
-    'from-pink-500',
-    'from-purple-500',
-  ];
+  'from-indigo-500',
+  'from-blue-500',
+  'from-green-500',
+  'from-red-500',
+  'from-yellow-500',
+  'from-pink-500',
+  'from-purple-500',
+]
 
 function Center() {
   const { data: session } = useSession()
   const [color, setColor] = useState(null)
+  const [playlist, setPlaylist] = useRecoilState(playlistAtom)
+  const playlistId = useRecoilValue(playlistAtomId)
 
-    useEffect(() => {
-        setColor(shuffle(colors).pop())
-    }, [])
+  useEffect(() => {
+    setColor(shuffle(colors).pop())
+  }, [playlistId])
+
+  useEffect(() => {
+    spotifyApi
+      .getPlaylist(playlistId)
+      .then((data) => setPlaylist(data.body))
+      .catch((error) => alert(error))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spotifyApi, playlistId])
+
+  console.log(playlist)
 
   return (
     <div className="flex-grow text-white">
@@ -32,10 +47,12 @@ function Center() {
         </div>
       </header>
 
-      <section
-        className={`flex items-end space-x-7 bg-gradient-to-b ${color} to-black h-80`}
-      >
-        <h1>Hello</h1>
+      <section className={`flex items-end space-x-7 bg-gradient-to-b ${color} to-black h-80`}>
+        <img className="ml-4 md:ml-12 w-44 h-44 shadow-2xl" src={playlist?.images?.[0]?.url} alt="" />
+        <div>
+          <p className='text-2xl'>PLAYLIST</p>
+          <h2 className="text-2xl md-text-3xl lg:text-4xl font-bold">{playlist?.name}</h2>
+        </div>
       </section>
     </div>
   )
