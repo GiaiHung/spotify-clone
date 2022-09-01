@@ -14,7 +14,7 @@ import useSpotify from '../hooks/useSpotify'
 import {playlistAtomId} from '../atoms/playlistAtom'
 
 function Sidebar() {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const [playlists, setPlaylists] = useState([])
   const [playlistId, setPlaylistId] = useRecoilState(playlistAtomId)
   const spotifyApi = useSpotify()
@@ -26,10 +26,9 @@ function Sidebar() {
   }, [session, spotifyApi])
 
   return (
-    <div className="text-gray-500 h-screen border-r-2 border-slate-800 p-5 md:max-w-[12rem] overflow-y-scroll scrollbar-hide lg:max-w-[15rem] hidden md:inline-flex">
+    <div className="text-gray-500 h-screen border-r-2 border-slate-800 p-5 min-w-[13rem] md:max-w-[13rem] overflow-y-scroll scrollbar-hide lg:max-w-[15rem] hidden md:inline-flex">
       <div className="flex flex-col space-y-4">
         <div>
-          <Button Icon={HomeIcon} title="Log out" onClick={() => signOut()} />
           <Button Icon={HomeIcon} title="Home" />
           <Button Icon={SearchIcon} title="Search" />
           <Button Icon={LibraryIcon} title="Your library" />
