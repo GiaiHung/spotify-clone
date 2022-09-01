@@ -25,7 +25,7 @@ function Song({ item, index }) {
       className="flex justify-between p-3 md:grid md:grid-cols-4 rounded-md cursor-pointer hover:bg-gray-900"
       onClick={playSong}
     >
-      <div className="flex items-center gap-x-4 ">
+      <div className="flex items-center gap-x-4">
         <h2 className="text-left">{index + 1}</h2>
         <img className="w-12 h-12 object-cover" src={item?.track?.album?.images[0]?.url} alt="" />
         <div>
