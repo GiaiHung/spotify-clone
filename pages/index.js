@@ -13,7 +13,7 @@ export default function Home() {
       </Head>
 
       <div className="bg-black h-screen overflow-hidden">
-        <main className="flex">
+        <main className="flex relative">
           <Sidebar />
           <Center />
         </main>

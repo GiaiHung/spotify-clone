@@ -53,3 +53,16 @@ a {
   background: #04aa6d;
   cursor: pointer;
 }
+
+.active {
+  transform: translateX(0) !important;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+}

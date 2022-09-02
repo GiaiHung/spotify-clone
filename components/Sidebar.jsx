@@ -11,12 +11,14 @@ import {
 import Button from './Support/Button'
 import { useSession, signOut } from 'next-auth/react'
 import useSpotify from '../hooks/useSpotify'
-import {playlistAtomId} from '../atoms/playlistAtom'
+import { playlistAtomId } from '../atoms/playlistAtom'
+import { sidebarActiveState } from '../atoms/sidebarAtom'
 
 function Sidebar() {
   const { data: session } = useSession()
   const [playlists, setPlaylists] = useState([])
   const [playlistId, setPlaylistId] = useRecoilState(playlistAtomId)
+  const [sidebarActive, setSidebarActive] = useRecoilState(sidebarActiveState)
   const spotifyApi = useSpotify()
 
   useEffect(() => {
@@ -26,8 +28,18 @@ function Sidebar() {
   }, [session, spotifyApi])
 
   return (
-    <div className="text-gray-500 h-[90vh] border-r-2 border-slate-800 p-5 min-w-[13rem] md:max-w-[13rem] overflow-y-scroll scrollbar-hide lg:max-w-[15rem] hidden md:inline-flex">
-      <div className="flex flex-col space-y-4">
+    <div
+      className={`text-gray-500 h-screen bg-black md:h-[90vh] md:border-r-2 md:border-slate-800 p-5 md:max-w-[13rem] overflow-y-scroll scrollbar-hide lg:max-w-[15rem] absolute md:relative -translate-x-full md:translate-x-0 ease-in-out duration-200 ${
+        sidebarActive && 'active'
+      }`}
+    >
+      <div className="flex flex-col space-y-4 relative">
+        <div
+          className="absolute right-4 top-4 text-2xl text-white cursor-pointer block md:hidden"
+          onClick={() => setSidebarActive(!sidebarActive)}
+        >
+          &times;
+        </div>
         <div>
           <Button Icon={HomeIcon} title="Home" />
           <Button Icon={SearchIcon} title="Search" />
@@ -46,7 +58,9 @@ function Sidebar() {
           {playlists.map((playlist) => (
             <p
               key={playlist.id}
-              className={`text-gray-500 cursor-pointer hover:text-white ${playlist.id === playlistId && '!text-white'}`}
+              className={`text-gray-500 cursor-pointer hover:text-white ${
+                playlist.id === playlistId && '!text-white'
+              }`}
               onClick={() => setPlaylistId(playlist.id)}
             >
               {playlist.name}

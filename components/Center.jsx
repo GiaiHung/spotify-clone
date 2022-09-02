@@ -7,6 +7,7 @@ import { useRecoilValue, useRecoilState } from 'recoil'
 import { playlistAtom, playlistAtomId } from '../atoms/playlistAtom'
 import spotifyApi from '../lib/spotify'
 import Songs from './Songs'
+import { sidebarActiveState } from '../atoms/sidebarAtom'
 
 const colors = [
   'from-indigo-500',
@@ -22,7 +23,9 @@ function Center() {
   const { data: session } = useSession()
   const [color, setColor] = useState(null)
   const [playlist, setPlaylist] = useRecoilState(playlistAtom)
+  const [sidebarActive, setSidebarActive] = useRecoilState(sidebarActiveState)
   const playlistId = useRecoilValue(playlistAtomId)
+  console.log(sidebarActive);
 
   useEffect(() => {
     setColor(shuffle(colors).pop())
@@ -41,7 +44,10 @@ function Center() {
   return (
     <div className="flex-grow text-white h-screen overflow-y-scroll scrollbar-hide">
       <header className="absolute top-5 right-8">
-        <div className="flex items-center px-4 py-2 gap-x-3 bg-black opacity-90 hover:opacity-80 rounded-full cursor-pointer" onClick={() => signOut()}>
+        <div
+          className="flex items-center px-4 py-2 gap-x-3 bg-black opacity-90 hover:opacity-80 rounded-full cursor-pointer"
+          onClick={() => signOut()}
+        >
           <img className="w-12 h-12 rounded-full" src={session?.user?.image} alt="" />
           <h2 className="font-semibold">{session?.user?.name}</h2>
           <ChevronDownIcon className="h-5" />
@@ -55,7 +61,12 @@ function Center() {
           alt=""
         />
         <div>
-          <p className="text-2xl">PLAYLIST</p>
+          <p
+            className="text-2xl underline cursor-pointer md:cursor-default md:no-underline"
+            onClick={() => setSidebarActive(!sidebarActive)}
+          >
+            PLAYLISTS
+          </p>
           <h2 className="text-2xl md-text-3xl lg:text-4xl font-bold">{playlist?.name}</h2>
         </div>
       </section>
