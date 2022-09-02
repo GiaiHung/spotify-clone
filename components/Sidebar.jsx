@@ -9,7 +9,7 @@ import {
   RssIcon,
 } from '@heroicons/react/outline'
 import Button from './Support/Button'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import useSpotify from '../hooks/useSpotify'
 import { playlistAtomId } from '../atoms/playlistAtom'
 import { sidebarActiveState } from '../atoms/sidebarAtom'

@@ -17,6 +17,7 @@ function Song({ item, index }) {
     setCurrentTrack(item.track)
     setIsPlaying(true)
     spotifyApi.play({
+      // Provide spotify song's uri and the current playlist so that we can skip to next or previous song
       context_uri: currentPlaylist.uri,
       offset: {
         uri: item.track.uri,

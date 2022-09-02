@@ -1,13 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
+import React, { useEffect, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import { signOut, useSession } from 'next-auth/react'
-import React, { useEffect, useState } from 'react'
 import { shuffle } from 'lodash'
 import { useRecoilValue, useRecoilState } from 'recoil'
+
 import { playlistAtom, playlistAtomId } from '../atoms/playlistAtom'
+import { sidebarActiveState } from '../atoms/sidebarAtom'
 import spotifyApi from '../lib/spotify'
 import Songs from './Songs'
-import { sidebarActiveState } from '../atoms/sidebarAtom'
 
 const colors = [
   'from-indigo-500',
@@ -25,12 +26,12 @@ function Center() {
   const [playlist, setPlaylist] = useRecoilState(playlistAtom)
   const [sidebarActive, setSidebarActive] = useRecoilState(sidebarActiveState)
   const playlistId = useRecoilValue(playlistAtomId)
-  console.log(sidebarActive);
 
   useEffect(() => {
     setColor(shuffle(colors).pop())
   }, [playlistId])
 
+  // Set the current playlist to recoil state
   useEffect(() => {
     spotifyApi
       .getPlaylist(playlistId)
@@ -43,6 +44,7 @@ function Center() {
 
   return (
     <div className="flex-grow text-white h-screen overflow-y-scroll scrollbar-hide">
+      {/* Sticky header */}
       <header className="absolute top-5 right-8">
         <div
           className="flex items-center px-4 py-2 gap-x-3 bg-black opacity-90 hover:opacity-80 rounded-full cursor-pointer"
@@ -54,6 +56,7 @@ function Center() {
         </div>
       </header>
 
+      {/* Center */}
       <section className={`flex items-end space-x-7 bg-gradient-to-b ${color} to-black h-80`}>
         <img
           className="ml-4 md:ml-12 w-44 h-44 shadow-2xl"
@@ -71,6 +74,7 @@ function Center() {
         </div>
       </section>
 
+      {/* Songs */}
       <div>
         <Songs />
       </div>

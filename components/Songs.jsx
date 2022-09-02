@@ -10,6 +10,7 @@ function Songs() {
 
   return (
     <div className="text-gray-500 flex flex-col space-y-2 pb-20 px-10 pt-10">
+      {/* Songs header */}
       <div className="grid grid-cols-2 md:grid-cols-4 text-sm font-semibold px-3">
         <div className="flex gap-x-4">
           <h2>#</h2>
